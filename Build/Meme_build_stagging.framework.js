@@ -1288,10 +1288,10 @@ function dbg(text) {
 // === Body ===
 
 var ASM_CONSTS = {
-  6464608: () => { Module['emscripten_get_now_backup'] = performance.now; },  
- 6464663: ($0) => { performance.now = function() { return $0; }; },  
- 6464711: ($0) => { performance.now = function() { return $0; }; },  
- 6464759: () => { performance.now = Module['emscripten_get_now_backup']; }
+  6464432: () => { Module['emscripten_get_now_backup'] = performance.now; },  
+ 6464487: ($0) => { performance.now = function() { return $0; }; },  
+ 6464535: ($0) => { performance.now = function() { return $0; }; },  
+ 6464583: () => { performance.now = Module['emscripten_get_now_backup']; }
 };
 
 
@@ -18993,7 +18993,6 @@ var wasmImports = {
   "invoke_iiifi": invoke_iiifi,
   "invoke_iiifii": invoke_iiifii,
   "invoke_iiii": invoke_iiii,
-  "invoke_iiiifi": invoke_iiiifi,
   "invoke_iiiifii": invoke_iiiifii,
   "invoke_iiiii": invoke_iiiii,
   "invoke_iiiiifi": invoke_iiiiifi,
@@ -19420,11 +19419,11 @@ var dynCall_fiffffi = Module["dynCall_fiffffi"] = createExportWrapper("dynCall_f
 /** @type {function(...*):?} */
 var dynCall_vidjiiiiii = Module["dynCall_vidjiiiiii"] = createExportWrapper("dynCall_vidjiiiiii");
 /** @type {function(...*):?} */
-var dynCall_iiiifi = Module["dynCall_iiiifi"] = createExportWrapper("dynCall_iiiifi");
-/** @type {function(...*):?} */
 var dynCall_viiiiiifii = Module["dynCall_viiiiiifii"] = createExportWrapper("dynCall_viiiiiifii");
 /** @type {function(...*):?} */
 var dynCall_viifii = Module["dynCall_viifii"] = createExportWrapper("dynCall_viifii");
+/** @type {function(...*):?} */
+var dynCall_iiiifi = Module["dynCall_iiiifi"] = createExportWrapper("dynCall_iiiifi");
 /** @type {function(...*):?} */
 var dynCall_viiififiii = Module["dynCall_viiififiii"] = createExportWrapper("dynCall_viiififiii");
 /** @type {function(...*):?} */
@@ -21172,17 +21171,6 @@ function invoke_diiii(index,a1,a2,a3,a4) {
   var sp = stackSave();
   try {
     return dynCall_diiii(index,a1,a2,a3,a4);
-  } catch(e) {
-    stackRestore(sp);
-    if (!(e instanceof EmscriptenEH)) throw e;
-    _setThrew(1, 0);
-  }
-}
-
-function invoke_iiiifi(index,a1,a2,a3,a4,a5) {
-  var sp = stackSave();
-  try {
-    return dynCall_iiiifi(index,a1,a2,a3,a4,a5);
   } catch(e) {
     stackRestore(sp);
     if (!(e instanceof EmscriptenEH)) throw e;
