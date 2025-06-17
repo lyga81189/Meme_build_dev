@@ -7,6 +7,35 @@
     <title>Unity Web Player | skybull-hybrid-casual-framwork1</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+    <style>
+	  html, body {
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		height: 100%;
+		width: 100%;
+		background: black;
+	  }
+
+	  #unity-container {
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100vw;
+		height: 100vh;
+		overflow: hidden;
+		background: black;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	  }
+
+	  #unity-canvas {
+		display: block;
+		background: black;
+	  }
+</style>
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -18,13 +47,13 @@
         </div>
       </div>
       <div id="unity-warning"> </div>
-      <div id="unity-footer">
-        <div id="unity-logo-title-footer"></div>
-        <div id="unity-fullscreen-button"></div>
-        <div id="unity-build-title">skybull-hybrid-casual-framwork1</div>
-      </div>
+      <div id="unity-footer"> </div>
     </div>
     <script>
+
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
       var canvas = document.querySelector("#unity-canvas");
 
       // Shows a temporary message banner/ribbon for a few seconds, or
@@ -66,6 +95,31 @@
         showBanner: unityShowBanner,
       };
 
+      function maintainAspectRatio() {
+		  const containerWidth = window.innerWidth;
+		  const containerHeight = window.innerHeight;
+		  const targetAspectRatio = 9 / 16;
+		  const containerAspectRatio = containerWidth / containerHeight;
+
+		  let newWidth, newHeight;
+
+		  if (containerAspectRatio > targetAspectRatio) {
+			newHeight = containerHeight;
+			newWidth = newHeight * targetAspectRatio;
+		  } else {
+			newWidth = containerWidth;
+			newHeight = newWidth / targetAspectRatio;
+		  }
+
+		  canvas.style.width = newWidth + "px";
+		  canvas.style.height = newHeight + "px";
+		}
+	
+		window.addEventListener("resize", maintainAspectRatio);
+		window.addEventListener("load", maintainAspectRatio);
+
+		document.querySelector("#unity-loading-bar").style.display = "block";
+
       // By default, Unity keeps WebGL canvas render target size matched with
       // the DOM size of the canvas element (scaled by window.devicePixelRatio)
       // Set this to false if you want to decouple this synchronization from
@@ -97,13 +151,7 @@
         // config.devicePixelRatio = 1;
 
 
-      } else {
-        // Desktop style: Render the game canvas in a window that can be maximized to fullscreen:
-        canvas.style.width = "360px";
-        canvas.style.height = "640px";
-      }
-
-      document.querySelector("#unity-loading-bar").style.display = "block";
+      }       
 
       var script = document.createElement("script");
       script.src = loaderUrl;
@@ -111,11 +159,7 @@
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
-                document.querySelector("#unity-loading-bar").style.display = "none";
-                document.querySelector("#unity-fullscreen-button").onclick = () => {
-                  unityInstance.SetFullscreen(1);
-                };
-
+                document.querySelector("#unity-loading-bar").style.display = "none";               
               }).catch((message) => {
                 alert(message);
               });
