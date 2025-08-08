@@ -1,58 +1,61 @@
 <!DOCTYPE html>
 <html lang="en-us">
-  <head>
+<head>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-    <meta charset="utf-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <title>Unity Web Player | skybull-hybrid-casual-framwork1</title>
-    <link rel="shortcut icon" href="TemplateData/favicon.ico">
-    <link rel="stylesheet" href="TemplateData/style.css">
-    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
-    <style>
-	  html, body {
-		margin: 0;
-		padding: 0;
-		overflow: hidden;
-		height: 100%;
-		width: 100%;
-		background: black;
-	  }
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <title>Unity Web Player | SkybullBaseTemplate</title>
+        <link rel="shortcut icon" href="TemplateData/favicon.ico">
+        <link rel="stylesheet" href="TemplateData/style.css">
+        <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=no, shrink-to-fit=yes">
+        <style>
+            html, body {
+                margin: 0;
+                padding: 0;
+                overflow: hidden;
+                height: 100%;
+                width: 100%;
+                background: black;
+            }
 
-	  #unity-container {
-		position: fixed;
-		top: 0;
-		left: 0;
-		width: 100vw;
-		height: 100vh;
-		overflow: hidden;
-		background: black;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-	  }
+            #unity-container {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100vw;
+                height: 100vh;
+                overflow: hidden;
+                background: black;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
 
-	  #unity-canvas {
-		display: block;
-		background: black;
-	  }
-</style>
-  </head>
+            #unity-canvas {
+                display: block;
+                background: black;
+            }
+        </style>
+    </head>
   <body>
-    <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=360 height=640 tabindex="-1"></canvas>
-      <div id="unity-loading-bar">
-        <div id="unity-logo"></div>
-        <div id="unity-progress-bar-empty">
-          <div id="unity-progress-bar-full"></div>
-        </div>
+      <div id="unity-container" class="unity-desktop">
+          <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1">
+          </canvas>
+          <div id="unity-loading-bar">
+              <div id="unity-logo"></div>
+              <div id="unity-progress-bar-empty">
+                  <div id="unity-progress-bar-full"></div>
+              </div>
+          </div>
+          <div id="unity-warning"> </div>
+          <div id="unity-footer">
+          </div>
       </div>
-      <div id="unity-warning"> </div>
-      <div id="unity-footer"> </div>
-    </div>
     <script>
-
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
+
 
       var canvas = document.querySelector("#unity-canvas");
 
@@ -81,60 +84,44 @@
         updateBannerVisibility();
       }
 
-      var buildUrl = "Build";
-      var loaderUrl = buildUrl + "/Meme_build_stagging.loader.js";
-      var config = {
-        arguments: [],
-        dataUrl: buildUrl + "/Meme_build_stagging.data.unityweb",
-        frameworkUrl: buildUrl + "/Meme_build_stagging.framework.js.unityweb",
-        codeUrl: buildUrl + "/Meme_build_stagging.wasm.unityweb",
-        streamingAssetsUrl: "StreamingAssets",
-        companyName: "Skybull",
-        productName: "skybull-hybrid-casual-framwork1",
-        productVersion: "0.1.0",
-        showBanner: unityShowBanner,
-      };
+        var buildUrl = "Build";
+        var loaderUrl = buildUrl + "/Meme_build_dev.loader.js";
+        var config = {
+            arguments: [],
+            dataUrl: buildUrl + "/Meme_build_dev.data.unityweb",
+            frameworkUrl: buildUrl + "/Meme_build_dev.framework.js.unityweb",
+            codeUrl: buildUrl + "/Meme_build_dev.wasm.unityweb",
+            streamingAssetsUrl: "StreamingAssets",
+            companyName: "Skybull",
+            productName: "skybull-hybrid-casual-framwork1",
+            productVersion: "0.1.0",
+            showBanner: unityShowBanner,
+        };
 
-      function maintainAspectRatio() {
-		  const containerWidth = window.innerWidth;
-		  const containerHeight = window.innerHeight;
-		  const targetAspectRatio = 9 / 16;
-		  const containerAspectRatio = containerWidth / containerHeight;
+        function maintainAspectRatio() {
+            const containerWidth = window.innerWidth;
+            const containerHeight = window.innerHeight;
+            const targetAspectRatio = 9 / 16;
+            const containerAspectRatio = containerWidth / containerHeight;
 
-		  let newWidth, newHeight;
+            let newWidth, newHeight;
 
-		  if (containerAspectRatio > targetAspectRatio) {
-			newHeight = containerHeight;
-			newWidth = newHeight * targetAspectRatio;
-		  } else {
-			newWidth = containerWidth;
-			newHeight = newWidth / targetAspectRatio;
-		  }
+            if (containerAspectRatio > targetAspectRatio) {
+                newHeight = containerHeight;
+                newWidth = newHeight * targetAspectRatio;
+            } else {
+                newWidth = containerWidth;
+                newHeight = newWidth / targetAspectRatio;
+            }
 
-		  canvas.style.width = newWidth + "px";
-		  canvas.style.height = newHeight + "px";
-		}
-	
-		window.addEventListener("resize", maintainAspectRatio);
-		window.addEventListener("load", maintainAspectRatio);
+            canvas.style.width = newWidth + "px";
+            canvas.style.height = newHeight + "px";
+        }
 
-		document.querySelector("#unity-loading-bar").style.display = "block";
+        window.addEventListener("resize", maintainAspectRatio);
+        window.addEventListener("load", maintainAspectRatio);
 
-      // By default, Unity keeps WebGL canvas render target size matched with
-      // the DOM size of the canvas element (scaled by window.devicePixelRatio)
-      // Set this to false if you want to decouple this synchronization from
-      // happening inside the engine, and you would instead like to size up
-      // the canvas DOM size and WebGL render target sizes yourself.
-      // config.matchWebGLToCanvasSize = false;
-
-      // If you would like all file writes inside Unity Application.persistentDataPath
-      // directory to automatically persist so that the contents are remembered when
-      // the user revisits the site the next time, uncomment the following line:
-      // config.autoSyncPersistentDataPath = true;
-      // This autosyncing is currently not the default behavior to avoid regressing
-      // existing user projects that might rely on the earlier manual
-      // JS_FileSystem_Sync() behavior, but in future Unity version, this will be
-      // expected to change.
+        document.querySelector("#unity-loading-bar").style.display = "block";
 
       if (/iPhone|iPad|iPod|Android/i.test(navigator.userAgent)) {
         // Mobile device style: fill the whole browser client area with the game canvas:
@@ -150,8 +137,7 @@
         // performance, uncomment the following line:
         // config.devicePixelRatio = 1;
 
-
-      }       
+      }
 
       var script = document.createElement("script");
       script.src = loaderUrl;
@@ -159,7 +145,15 @@
         createUnityInstance(canvas, config, (progress) => {
           document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
               }).then((unityInstance) => {
-                document.querySelector("#unity-loading-bar").style.display = "none";               
+                  document.querySelector("#unity-loading-bar").style.display = "none";
+                  document.addEventListener("visibilitychange", function () {
+                      if (document.hidden) {
+                          unityInstance.SendMessage("AudioManager", "PauseMusicFromJS");
+                      } else {
+                          unityInstance.SendMessage("AudioManager", "ResumeMusicFromJS");
+                      }
+                  });
+
               }).catch((message) => {
                 alert(message);
               });
