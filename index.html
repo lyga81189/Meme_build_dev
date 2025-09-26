@@ -175,12 +175,13 @@
       Telegram.WebApp.enableClosingConfirmation();
     }
   });
-</script>
- <script>
-        window.tonConnect = new TON_CONNECTUI.TonConnectUI({
+
+  window.tonConnect = new TON_CONNECTUI.TonConnectUI({
             manifestUrl: "https://seahorse-magnetic-officially.ngrok.app/api/ftp/File/get-file/manifes.json",
             testnet: true
         });
+
+        console.log("Ton window created: " + window.tonConnect);
 
         async function testJavaScriptFunction(recipientAddress, amount) {
             console.error("Unity says: " + recipientAddress + "__" + amount);
@@ -206,6 +207,6 @@
                 console.error("❌ Transaction rejected or failed:", err);
             }
         }
-    </script>
+</script>
   </body>
 </html>
