@@ -51,13 +51,6 @@
       <div id="unity-footer"> </div>
     </div>
     <script>
-
-window.tonConnect = new TON_CONNECT_UI.TonConnectUI({
-        manifestUrl: "https://seahorse-magnetic-officially.ngrok.app/api/ftp/File/get-file/eternal_king_mainnet.json",
-        testnet: true
-      });
-	  
-
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
@@ -183,5 +176,36 @@ window.tonConnect = new TON_CONNECT_UI.TonConnectUI({
     }
   });
 </script>
+ <script>
+        window.tonConnect = new TON_CONNECTUI.TonConnectUI({
+            manifestUrl: "https://seahorse-magnetic-officially.ngrok.app/api/ftp/File/get-file/manifes.json",
+            testnet: true
+        });
+
+        async function testJavaScriptFunction(recipientAddress, amount) {
+            console.error("Unity says: " + recipientAddress + "__" + amount);
+
+            const transaction = {
+                validUntil: Math.floor(Date.now() / 1000) + 300, // 5 minutes validity
+                messages:
+                    [
+                        {
+                            address: recipientAddress, // recipient
+                            amount: amount, // 50000000 = 0.05 TON in nanoTON
+                            payload: undefined, // optional, use .toBoc().toString('base64') if needed
+                        }
+                    ]
+            };
+
+            try {
+                const result = await window.tonConnect.sendTransaction(transaction);
+                console.log("✅ Transaction sent!");
+                console.log("📦 Result:", result);
+            }
+            catch (err) {
+                console.error("❌ Transaction rejected or failed:", err);
+            }
+        }
+    </script>
   </body>
 </html>
