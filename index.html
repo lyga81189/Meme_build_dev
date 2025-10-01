@@ -187,5 +187,12 @@
     }
   });
 </script>
+<script src="https://cdn.jsdelivr.net/npm/@ton/core@0.51.0/dist/index.global.js"></script>
+<script>
+  // Thêm một đối tượng global để truy cập Address
+  window.TonCore = {
+    Address: TonCore.Address
+  };
+</script>
   </body>
 </html>
