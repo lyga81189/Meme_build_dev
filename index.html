@@ -2,7 +2,6 @@
 <html lang="en-us">
   <head>
     <script src="https://telegram.org/js/telegram-web-app.js?56"></script>
-	<!-- <script src="https://unpkg.com/@tonconnect/ui@2.1.0/dist/tonconnect-ui.min.js"></script> -->
   <script src="https://unpkg.com/@tonconnect/ui@latest/dist/tonconnect-ui.min.js"></script>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
@@ -41,7 +40,7 @@
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
-      <canvas id="unity-canvas" width=360 height=640 tabindex="-1"></canvas>
+      <canvas id="unity-canvas" width=1080 height=1920 tabindex="-1"></canvas>
       <div id="unity-loading-bar">
         <div id="unity-logo"></div>
         <div id="unity-progress-bar-empty">
@@ -52,11 +51,21 @@
       <div id="unity-footer"> </div>
     </div>
     <script>
+	  window.tonConnect = new TON_CONNECT_UI.TonConnectUI({
+            manifestUrl: "https://seahorse-magnetic-officially.ngrok.app/api/ftp/File/get-file/manifes.json",
+            testnet: true
+        });
+		
         Telegram.WebApp.ready();
         Telegram.WebApp.expand();
 
+      var container = document.querySelector("#unity-container");
       var canvas = document.querySelector("#unity-canvas");
-
+      var loadingBar = document.querySelector("#unity-loading-bar");
+      var progressBarFull = document.querySelector("#unity-progress-bar-full");
+      var fullscreenButton = document.querySelector("#unity-fullscreen-button");
+      var warningBanner = document.querySelector("#unity-warning");
+      var Gameinstance =null;
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
       // If type=='warning', a yellow highlight color is used.
@@ -64,7 +73,6 @@
       // way that non-critical warnings and error messages are presented to the
       // user.
       function unityShowBanner(msg, type) {
-        var warningBanner = document.querySelector("#unity-warning");
         function updateBannerVisibility() {
           warningBanner.style.display = warningBanner.children.length ? 'block' : 'none';
         }
@@ -81,6 +89,7 @@
         }
         updateBannerVisibility();
       }
+
 
       var buildUrl = "Build";
       var loaderUrl = buildUrl + "/Meme_build_stagging.loader.js";
@@ -158,14 +167,15 @@
       script.src = loaderUrl;
       script.onload = () => {
         createUnityInstance(canvas, config, (progress) => {
-          document.querySelector("#unity-progress-bar-full").style.width = 100 * progress + "%";
-              }).then((unityInstance) => {
-                document.querySelector("#unity-loading-bar").style.display = "none";               
-              }).catch((message) => {
-                alert(message);
-              });
-            };
-
+          progressBarFull.style.width = 100 * progress + "%";
+        }).then((unityInstance) => {
+          loadingBar.style.display = "none";
+          Gameinstance =unityInstance;
+		  window.unityInstance=unityInstance;          
+        }).catch((message) => {
+          alert(message);
+        });
+      };
       document.body.appendChild(script);
 
     </script>
@@ -176,38 +186,6 @@
       Telegram.WebApp.enableClosingConfirmation();
     }
   });
-
-  window.tonConnect = new TON_CONNECT_UI.TonConnectUI({
-            manifestUrl: "https://seahorse-magnetic-officially.ngrok.app/api/ftp/File/get-file/manifes.json",
-            testnet: true
-        });
-
-        console.log("Ton window created: " + window.tonConnect);
-
-        async function testJavaScriptFunction(recipientAddress, amount) {
-            console.error("Unity says: " + recipientAddress + "__" + amount);
-
-            const transaction = {
-                validUntil: Math.floor(Date.now() / 1000) + 300, // 5 minutes validity
-                messages:
-                    [
-                        {
-                            address: recipientAddress, // recipient
-                            amount: amount, // 50000000 = 0.05 TON in nanoTON
-                            payload: undefined, // optional, use .toBoc().toString('base64') if needed
-                        }
-                    ]
-            };
-
-            try {
-                const result = await window.tonConnect.sendTransaction(transaction);
-                console.log("✅ Transaction sent!");
-                console.log("📦 Result:", result);
-            }
-            catch (err) {
-                console.error("❌ Transaction rejected or failed:", err);
-            }
-        }
 </script>
   </body>
 </html>
